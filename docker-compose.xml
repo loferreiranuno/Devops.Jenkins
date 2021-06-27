@@ -1,0 +1,23 @@
+version: "3"
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+services:
+  jenkins:
+    image: jenkinsci/blueocean
+    user: root
+    restart: always
+    ports:
+      - "8800:8080"
+    volumes:
+      - ~/data/jenkins_home_news:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.backend=jenkins
+      - traefik.http.routers.jenkins.rule=Host(`jenkins.plan-please.com`)
+      - traefik.docker.network=web
+    networks:
+      - internal
+      - web
