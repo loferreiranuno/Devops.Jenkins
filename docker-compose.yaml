@@ -16,7 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - traefik.backend=jenkins
-      - traefik.http.routers.jenkins.rule=Host(`jenkins.plan-please.com`)
+      - traefik.http.routers.jenkins.rule=Host(`jenkins.qcenar.com`)
       - traefik.docker.network=web
     networks:
       - internal
