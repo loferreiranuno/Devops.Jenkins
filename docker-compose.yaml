@@ -6,6 +6,7 @@ networks:
     external: false
 services:
   jenkins:
+    container_name: jenkins
     image: jenkinsci/blueocean
     user: root
     restart: always
@@ -19,7 +20,7 @@ services:
       - traefik.enable=true
       - traefik.backend=jenkins
       - traefik.docker.network=web
-      
+
       - traefik.http.middlewares.jenkins-redirect-websecure.redirectscheme.scheme=https
 
       - traefik.http.routers.jenkins.middlewares=jenkins-redirect-websecure
