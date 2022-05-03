@@ -14,11 +14,21 @@ services:
     volumes:
       - ~/data/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCKER_PATH}:/usr/bin/docker
+      - /usr/bin/docker:/usr/bin/docker
     labels:
+      - traefik.enable=true
       - traefik.backend=jenkins
-      - traefik.http.routers.jenkins.rule=Host(`jenkins.qcenar.com`)
       - traefik.docker.network=web
+      
+      - traefik.http.middlewares.jenkins-redirect-websecure.redirectscheme.scheme=https
+
+      - traefik.http.routers.jenkins.middlewares=jenkins-redirect-websecure
+      - traefik.http.routers.jenkins.rule=Host(`jenkins.qcenar.com`) 
+
+      - traefik.http.routers.jenkins-websecure.rule=Host(`jenkins.qcenar.com`)
+      - traefik.http.routers.jenkins-websecure.entrypoints=websecure
+      - traefik.http.routers.jenkins-websecure.tls.certresolver=le
+      - traefik.http.routers.jenkins-websecure.tls=true
     networks:
       - internal
       - web
