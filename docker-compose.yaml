@@ -1,38 +1,11 @@
-version: "3"
-networks:
-  web:
-    external: true
-  internal:
-    external: false
+version: '3.3'
 services:
-  jenkins:
-    container_name: jenkins
-    image: jenkinsci/blueocean
-    user: root
-    restart: always
-    ports:
-      - "8800:8080"
-    volumes:
-      - ~/.ssh:/root/.ssh
-      - ~/data/jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      # - /usr/bin/docker:/usr/bin/docker    
-      # - /usr/bin/git:/usr/bin/git  
-      #- /usr/bin/git:/usr/bin/git:ro
-    labels:
-      - traefik.enable=true
-      - traefik.backend=jenkins
-      - traefik.docker.network=web
-
-      - traefik.http.middlewares.jenkins-redirect-websecure.redirectscheme.scheme=https
-
-      - traefik.http.routers.jenkins.middlewares=jenkins-redirect-websecure
-      - traefik.http.routers.jenkins.rule=Host(`jenkins.qcenar.com`) 
-
-      - traefik.http.routers.jenkins-websecure.rule=Host(`jenkins.qcenar.com`)
-      - traefik.http.routers.jenkins-websecure.entrypoints=websecure
-      - traefik.http.routers.jenkins-websecure.tls.certresolver=le
-      - traefik.http.routers.jenkins-websecure.tls=true
-    networks:
-      - internal
-      - web
+    jenkins-dind:
+        ports:
+            - '8080:8080'
+            - '50000:50000'
+        privileged: true
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock'
+            - 'jenkins_home:/var/jenkins_home'
+        image: jenkins-dind
