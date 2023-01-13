@@ -7,5 +7,5 @@ services:
         privileged: true
         volumes:
             - '/var/run/docker.sock:/var/run/docker.sock'
-            - 'jenkins_home:/var/jenkins_home'
+            - '~/data/jenkins_home:/var/jenkins_home'
         image: jenkins-dind
