@@ -9,3 +9,4 @@ services:
             - '/var/run/docker.sock:/var/run/docker.sock'
             - '~/data/jenkins_home:/var/jenkins_home'
         image: jenkins-dind
+        restart: on-failure
