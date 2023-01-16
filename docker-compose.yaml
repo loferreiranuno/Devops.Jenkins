@@ -1,4 +1,12 @@
 version: '3'
+volumes:
+    jenkins-docker-certs:
+        driver: local
+    jenkins-data:
+        driver: local
+networks:
+  jenkins:
+    driver: bridge
 services:
     jenkins-docker:
         image: docker:dind
