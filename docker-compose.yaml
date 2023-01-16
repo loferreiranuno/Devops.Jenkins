@@ -24,7 +24,7 @@ services:
         command: --storage-driver overlay2
         restart: always
     jenkins-blueocean:
-        image: jenkins-blueocean:0.0.1-1
+        image: jenkins-blueocean:0.0.1-1 
         container_name: jenkins-blueocean
         networks:
             - jenkins
