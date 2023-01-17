@@ -17,8 +17,7 @@ services:
             - DOCKER_TLS_CERTDIR=/certs
         volumes:
             - jenkins-data:/var/jenkins_home
-            - jenkins-docker-certs:/certs/client
-            - /var/run/docker.sock:/var/run/docker.sock
+            - jenkins-docker-certs:/certs/client 
         ports:
             - "2376:2376"
         command: --storage-driver overlay2
@@ -34,8 +33,7 @@ services:
             - DOCKER_TLS_VERIFY=1
         volumes:
             - jenkins-data:/var/jenkins_home
-            - jenkins-docker-certs:/certs/client:ro
-            - /var/run/docker.sock:/var/run/docker.sock
+            - jenkins-docker-certs:/certs/client:ro 
         ports:
             - "8080:8080"
             - "50000:50000"
