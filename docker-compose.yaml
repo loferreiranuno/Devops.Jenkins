@@ -6,7 +6,6 @@ volumes:
         driver: local
 networks:
   jenkins:
-    driver: bridge
 services:
     jenkins-docker:
         image: docker:dind
