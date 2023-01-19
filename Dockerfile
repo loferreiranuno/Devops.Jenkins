@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins
 
 USER jenkins
-RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker yet-another-docker"
