@@ -15,16 +15,20 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins
 
-# # Authorize SSH Host
-# RUN mkdir -p /root/.ssh && \
-#     chmod 0700 /root/.ssh && \
-#     ssh-keyscan github.com > /root/.ssh/known_hosts
+# Authorize SSH Host
+RUN mkdir -p /var/jenkins_home/.ssh && \
+    chmod 0700 /var/jenkins_home/.ssh && \
+    ssh-keyscan github.com > /var/jenkins_home/.ssh/known_hosts
+ 
+# Add the keys and set permissions
+RUN echo "$ssh_prv_key" > /var/jenkins_home/.ssh/id_rsa && \
+    echo "$ssh_pub_key" > /var/jenkins_home/.ssh/id_rsa.pub && \
+    chmod 600 /var/jenkins_home/.ssh/id_rsa && \
+    chmod 600 /var/jenkins_home/.ssh/id_rsa.pub 
 
-# # Add the keys and set permissions
-# RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
-#     echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
-#     chmod 600 /root/.ssh/id_rsa && \
-#     chmod 600 /root/.ssh/id_rsa.pub
+# Set permissions
+RUN chown -R jenkins:jenkins /var/jenkins_home
 
 USER jenkins
+
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin"

@@ -16,7 +16,6 @@ services:
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock
-            - ~/.ssh:/var/jenkins_home/.ssh
         ports:
             - "8080:8080"
             - "50000:50000"
