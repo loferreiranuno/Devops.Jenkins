@@ -18,7 +18,8 @@ RUN usermod -aG docker jenkins
 # Authorize SSH Host
 RUN mkdir -p /var/jenkins_home/.ssh && \
     chmod 0700 /var/jenkins_home/.ssh && \
-    ssh-keyscan github.com > /var/jenkins_home/.ssh/known_hosts
+    ssh-keyscan github.com > /var/jenkins_home/.ssh/known_hosts && \
+    chown -R jenkins:jenkins /var/jenkins_home
  
 # Add the keys and set permissions
 RUN echo "$ssh_prv_key" > /var/jenkins_home/.ssh/id_rsa && \
