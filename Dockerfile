@@ -24,6 +24,8 @@ RUN mkdir -p /var/jenkins_home/.ssh && \
     chmod 600 /var/jenkins_home/.ssh/id_rsa && \
     chmod 600 /var/jenkins_home/.ssh/id_rsa.pub 
 
+RUN mkdir -p /var/jenkins_home/.ssh/patatas
+
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
 
