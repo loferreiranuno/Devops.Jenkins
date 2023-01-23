@@ -20,10 +20,7 @@ RUN sudo mkdir -p /var/jenkins_home/.ssh && \
     chmod 0700 /var/jenkins_home/.ssh && \
     ssh-keyscan github.com > /var/jenkins_home/.ssh/known_hosts
 
-RUN touch id_rsa id_rsa.pub
-
-RUN echo "$ssh_prv_key"
-RUN echo "$ssh_pub_key"
+RUN dir /var/jenkins_home
 
 # Add the keys and set permissions
 RUN echo "$ssh_prv_key" > /var/jenkins_home/.ssh/id_rsa && \
