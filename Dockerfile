@@ -16,16 +16,18 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins
 
 # Authorize SSH Host
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com >> /root/.ssh/known_hosts && \
-    echo "$ssh_prv_key" >> /root/.ssh/id_rsa && \
-    echo "$ssh_pub_key" >> /root/.ssh/id_rsa.pub && \
-    chmod 600 /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa.pub 
+RUN mkdir -p ~/.ssh && \
+    chmod 0700 ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts
+ 
+# Add the keys and set permissions
+RUN echo "$ssh_prv_key" >> ~/.ssh/id_rsa && \
+    echo "$ssh_pub_key" >> ~/.ssh/id_rsa.pub && \
+    chmod 600 ~/.ssh/id_rsa && \
+    chmod 600 ~/.ssh/id_rsa.pub 
 
 # Set permissions
-RUN chown -R jenkins:jenkins /root 
+RUN chown -R jenkins:jenkins ~/
 
 USER jenkins
 
