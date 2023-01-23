@@ -15,6 +15,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce sudo nano
 RUN usermod -aG docker jenkins
 
+
+USER jenkins
+
 # Authorize SSH Host
 # Add the keys and set permissions
 RUN mkdir -p /var/jenkins_home/.ssh && \
@@ -27,7 +30,5 @@ RUN mkdir -p /var/jenkins_home/.ssh && \
 
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
-
-USER jenkins
 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin"
