@@ -12,8 +12,8 @@ services:
         container_name: jenkins-blueocean
         networks:
             - jenkins 
-        environment:
-            - SSH_AUTH_SOCK: /ssh-agent 
+        env_file:
+            - .env
         volumes: 
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
