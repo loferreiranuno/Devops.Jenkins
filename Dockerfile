@@ -22,6 +22,7 @@ RUN chown jenkins:jenkins /var/jenkins_home/.ssh
 USER jenkins
 
 # Configure as permissões para o usuário jenkins
+RUN mkdir /var/jenkins_home/.ssh
 RUN chmod 700 /var/jenkins_home/.ssh
 
 # Use as chaves SSH fornecidas como variáveis de ambiente 
