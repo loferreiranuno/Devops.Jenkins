@@ -22,8 +22,8 @@ RUN chmod +x /bin/docker-entrypoint.sh
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home 
 
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+
 USER jenkins
 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin"
-
-ENTRYPOINT ["/bin/docker-entrypoint.sh"]
