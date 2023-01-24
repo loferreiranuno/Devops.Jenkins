@@ -16,6 +16,10 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins
 
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
 
@@ -23,6 +27,3 @@ USER jenkins
 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin"
 
-COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
-RUN chmod +x /bin/docker-entrypoint.sh
-ENTRYPOINT ["/bin/docker-entrypoint.sh"]
