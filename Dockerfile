@@ -17,12 +17,12 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins
 
 # Mude a propriedade da pasta .ssh para jenkins
+RUN mkdir /var/jenkins_home/.ssh
 RUN chown jenkins:jenkins /var/jenkins_home/.ssh 
 
 USER jenkins
 
 # Configure as permissões para o usuário jenkins
-RUN mkdir /var/jenkins_home/.ssh
 RUN chmod 700 /var/jenkins_home/.ssh
 
 # Use as chaves SSH fornecidas como variáveis de ambiente 
