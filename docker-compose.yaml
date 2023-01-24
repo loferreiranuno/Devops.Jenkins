@@ -10,16 +10,16 @@ services:
     jenkins-blueocean:
         image: jenkins-blueocean:0.0.1-1 
         container_name: jenkins-blueocean
+        environment:
+            SSH_AUTH_SOCK: /ssh-agent
         networks:
             - jenkins 
         volumes:
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ~/.ssh/id_rsa:/var/jenkins_home/.ssh/id_rsa
-            - ~/.ssh/id_rsa.pub:/var/jenkins_home/.ssh/id_rsa.pub
-            - ~/.ssh/known_hosts:/var/jenkins_home/.ssh/known_hosts
+            - /var/run/docker.sock:/var/run/docker.sock 
+            - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
         ports:
             - "8080:8080"
             - "50000:50000"
-        restart: on-failure
+        restart: on-failure         
