@@ -16,13 +16,15 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins
 
+RUN mkdir ~/.ssh
+
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
+RUN chown -R jenkins:jenkins ~/.ssh
 
 USER jenkins
 
-# Use as chaves SSH fornecidas como variáveis de ambiente
-RUN mkdir ~/.ssh
+# Use as chaves SSH fornecidas como variáveis de ambiente 
 RUN echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
 RUN echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
 
