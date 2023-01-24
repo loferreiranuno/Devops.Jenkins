@@ -16,11 +16,10 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins
 
-RUN mkdir ~/.ssh
+RUN mkdir /var/jenkins_home/.ssh
 
-# Set permissions
-RUN chown -R jenkins:jenkins /var/jenkins_home
-RUN chown -R jenkins:jenkins ~/.ssh
+# Set permissions 
+RUN chown -R jenkins:jenkins /var/jenkins_home/.ssh
 
 USER jenkins
 
