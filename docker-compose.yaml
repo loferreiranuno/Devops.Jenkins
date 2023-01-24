@@ -6,12 +6,12 @@ volumes:
         driver: local
 networks:
   jenkins:
+environment:
+    SSH_AUTH_SOCK: /ssh-agent
 services:
     jenkins-blueocean:
         image: jenkins-blueocean:0.0.1-1 
         container_name: jenkins-blueocean
-        environment:
-            SSH_AUTH_SOCK: /ssh-agent
         networks:
             - jenkins 
         volumes:
