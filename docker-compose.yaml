@@ -18,7 +18,7 @@ services:
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock 
-            - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+            - ${SSH_AUTH_SOCK}:/ssh-agent # Forward local machine SSH key to docker
         ports:
             - "8080:8080"
             - "50000:50000"
