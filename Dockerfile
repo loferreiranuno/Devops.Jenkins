@@ -19,13 +19,15 @@ RUN usermod -aG docker jenkins
 
 USER jenkins
 
+# Configure as permissões para o usuário jenkins
+RUN chmod 700 ~/.ssh
+
 # Use as chaves SSH fornecidas como variáveis de ambiente 
 RUN echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
 RUN echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
 
-# Configure as permissões para o usuário jenkins
-RUN chmod 700 ~/.ssh
 RUN chmod 600 ~/.ssh/id_rsa
+RUN chmod 600 ~/.ssh/id_rsa.pub
 
 # Instale o plugin do GitHub
 RUN /usr/local/bin/install-plugins.sh github
