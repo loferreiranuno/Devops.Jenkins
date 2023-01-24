@@ -6,19 +6,21 @@ volumes:
         driver: local
 networks:
   jenkins:
-environment:
-    SSH_AUTH_SOCK: /ssh-agent
 services:
     jenkins-blueocean:
         image: jenkins-blueocean:0.0.1-1 
         container_name: jenkins-blueocean
         networks:
             - jenkins 
-        volumes:
+        environment:
+            - SSH_AUTH_SOCK: /ssh-agent 
+        volumes: 
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
+            - ~/.ssh:/root/.ssh
             - /var/run/docker.sock:/var/run/docker.sock 
-            - ${SSH_AUTH_SOCK}:/ssh-agent # Forward local machine SSH key to docker
+            - ${SSH_AUTH_SOCK}:/ssh-agent
+        command: ssh-add /root/.ssh/id_rsa
         ports:
             - "8080:8080"
             - "50000:50000"
