@@ -17,19 +17,19 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins
 
 # Mude a propriedade da pasta .ssh para jenkins
-RUN chown jenkins:jenkins ~/.ssh 
+RUN chown jenkins:jenkins /var/jenkins_home/.ssh 
 
 USER jenkins
 
 # Configure as permissões para o usuário jenkins
-RUN chmod 700 ~/.ssh
+RUN chmod 700 /var/jenkins_home/.ssh
 
 # Use as chaves SSH fornecidas como variáveis de ambiente 
-RUN echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-RUN echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+RUN echo "$SSH_PRIVATE_KEY" > /var/jenkins_home/.ssh/id_rsa
+RUN echo "$SSH_PUBLIC_KEY" > /var/jenkins_home/.ssh/id_rsa.pub
 
-RUN chmod 600 ~/.ssh/id_rsa
-RUN chmod 600 ~/.ssh/id_rsa.pub
+RUN chmod 600 /var/jenkins_home/.ssh/id_rsa
+RUN chmod 600 /var/jenkins_home/.ssh/id_rsa.pub
 
 # Instale o plugin do GitHub
 RUN /usr/local/bin/install-plugins.sh github
