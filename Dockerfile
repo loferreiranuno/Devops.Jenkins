@@ -15,7 +15,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins
- 
+
+# Mude a propriedade da pasta .ssh para jenkins
+RUN chown jenkins:jenkins ~/.ssh 
 
 USER jenkins
 
