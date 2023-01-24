@@ -23,3 +23,5 @@ RUN /usr/local/bin/install-plugins.sh github
 
 # Instale o plugin "Docker in Docker"
 RUN /usr/local/bin/install-plugins.sh docker-workflow
+
+RUN ssh-add /var/jenkins_home/.ssh/id_rsa
