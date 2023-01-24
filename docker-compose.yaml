@@ -16,9 +16,7 @@ services:
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock
-            - ~/.ssh/id_rsa:/var/jenkins_home/.ssh/id_rsa
-            - ~/.ssh/id_rsa.pub:/var/jenkins_home/.ssh/id_rsa.pub
-            - ~/.ssh/known_hosts:/var/jenkins_home/.ssh/known_hosts
+            - ~/.ssh:/tmp/.ssh:ro
         ports:
             - "8080:8080"
             - "50000:50000"
