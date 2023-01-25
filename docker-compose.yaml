@@ -18,8 +18,7 @@ services:
             - jenkins-data:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock
-            - ~/.ssh/id_rsa:/var/jenkins_home/.ssh/id_rsa:ro
-            - ~/.ssh/known_hosts:/var/jenkins_home/.ssh/known_hosts
+            - ~/.ssh:/var/jenkins_home/.ssh 
         command: ["/usr/local/bin/startup.sh"]
         ports:
             - "8080:8080"
