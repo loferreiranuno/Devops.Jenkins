@@ -18,5 +18,8 @@ RUN usermod -aG docker jenkins
 
 USER jenkins
 
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
+
 # Instale o plugin do GitHub 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin" 
