@@ -14,15 +14,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
-RUN usermod -aG docker jenkins
-  
+RUN usermod -aG docker jenkins  
 
 USER jenkins
 
-# Instale o plugin do GitHub
-RUN /usr/local/bin/install-plugins.sh github
-
-# Instale o plugin "Docker in Docker"
-RUN /usr/local/bin/install-plugins.sh docker-workflow
-
-RUN ssh-add /var/jenkins_home/.ssh/id_rsa
+# Instale o plugin do GitHub 
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin" 
