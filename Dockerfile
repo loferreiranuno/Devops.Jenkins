@@ -2,6 +2,9 @@ FROM jenkins/jenkins
 
 USER root
  
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
+
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -17,9 +20,6 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 RUN usermod -aG docker jenkins  
 
 USER jenkins
-
-COPY startup.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/startup.sh
 
 # Instale o plugin do GitHub 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin" 
