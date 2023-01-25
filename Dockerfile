@@ -2,9 +2,6 @@ FROM jenkins/jenkins
 
 USER root
  
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
-
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -18,6 +15,10 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins
+
+COPY startup.sh /usr/local/bin/
+RUN chown -R jenkins:jenkins /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup.sh
 
 USER jenkins
 
