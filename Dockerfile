@@ -22,4 +22,4 @@ RUN usermod -aG docker jenkins
 USER jenkins
 
 # Instale o plugin do GitHub 
-RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent yet-another-docker-plugin docker-plugin" 
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" 
