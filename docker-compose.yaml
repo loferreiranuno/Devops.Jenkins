@@ -19,7 +19,7 @@ services:
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock
             - ~/.ssh:/var/jenkins_home/.ssh 
-        command: ["/bin/bash", "-c", "eval $(ssh-agent -s) && ssh-add /var/jenkins_home/.ssh/id_rsa && /usr/local/bin/jenkins.sh"]
+        command: ["/usr/local/bin/startup.sh"]
         ports:
             - "8080:8080"
             - "50000:50000"
