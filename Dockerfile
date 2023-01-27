@@ -3,7 +3,7 @@ FROM jenkins/jenkins
 USER root
  
 COPY startup.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/startup.sh 
+RUN chmod +x /usr/local/bin/startup.sh
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
