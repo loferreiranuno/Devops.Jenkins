@@ -18,8 +18,8 @@ RUN usermod -aG docker jenkins
 
 RUN mkdir -p /var/jenkins_home/.ssh
 RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
-RUN ${SSH_PRIVATE_KEY} > ~/.ssh/jenkins/id_rsa
-RUN ${SSH_PUBLIC_KEY} > ~/.ssh/jenkins/id_rsa.pub
+RUN ${SSH_PRIVATE_KEY} > /var/jenkins_home/.ssh/jenkins/id_rsa
+RUN ${SSH_PUBLIC_KEY} > /var/jenkins_home/.ssh/jenkins/id_rsa.pub
 
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
