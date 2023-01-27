@@ -2,9 +2,6 @@ FROM jenkins/jenkins
 
 USER root
  
-COPY startup.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/startup.sh
-
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -19,6 +16,14 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins  
 
+RUN mkdir ~/.ssh/jenkins
+RUN chown jenkins ~/.ssh/jenkins
+
+RUN ${SSH_PRIVATE_KEY} > ~/.ssh/jenkins/id_rsa
+RUN ${SSH_PUBLIC_KEY} > ~/.ssh/jenkins/id_rsa.pub
+
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
 USER jenkins
 
 # Instale o plugin do GitHub 
