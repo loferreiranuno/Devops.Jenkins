@@ -18,7 +18,7 @@ RUN chmod 700 /tmp/ssh_keys/
 RUN chmod 600 /tmp/ssh_keys/*
 
 # Cambia el propietario de las claves SSH
-RUN chown $USER /tmp/ssh_keys/ -R 
+RUN chown jenkins:jenkins /tmp/ssh_keys/ -R 
 
 # Selecciona la imagen de Jenkins
 FROM jenkins/jenkins
@@ -27,7 +27,7 @@ FROM jenkins/jenkins
 USER root
 
 # Copia las claves SSH desde la primera imagen
-COPY --chown=$USER --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
