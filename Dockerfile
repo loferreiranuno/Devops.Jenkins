@@ -19,6 +19,7 @@ RUN usermod -aG docker jenkins
 
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
+RUN mkdir /var/jenkins_home/.ssh
 RUN chmod 700 /var/jenkins_home/.ssh
 RUN chmod 600 /var/jenkins_home/.ssh/* 
 
