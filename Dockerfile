@@ -1,7 +1,18 @@
+FROM jenkins/jenkins as base
+USER root
+
+# RUN mkdir -p /var/jenkins_home/.ssh
+# RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
+RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
+RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
+RUN chmod 600 -R /tmp/ssh_keys
+
 FROM jenkins/jenkins
 
 USER root
- 
+
+COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -16,16 +27,11 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins  
 
-RUN mkdir -p /var/jenkins_home/.ssh
-RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
-
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
 USER jenkins
 
-RUN ${SSH_PRIVATE_KEY} > /var/jenkins_home/.ssh/jenkins/id_rsa
-RUN ${SSH_PUBLIC_KEY} > /var/jenkins_home/.ssh/jenkins/id_rsa.pub
 
 # Instale o plugin do GitHub 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" 
