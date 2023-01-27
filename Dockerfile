@@ -16,9 +16,8 @@ RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins  
 
-RUN mkdir -p ~/.ssh/jenkins
-RUN chown jenkins ~/.ssh/jenkins -R
-
+RUN mkdir -p /var/jenkins_home/.ssh
+RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
 RUN ${SSH_PRIVATE_KEY} > ~/.ssh/jenkins/id_rsa
 RUN ${SSH_PUBLIC_KEY} > ~/.ssh/jenkins/id_rsa.pub
 
