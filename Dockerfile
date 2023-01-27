@@ -7,16 +7,14 @@ RUN mkdir -p /tmp/ssh_keys/
 RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
 RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
 RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/known_hosts
-RUN chown jenkins:jenkins /tmp/ssh_keys/id_rsa
-RUN chown jenkins:jenkins /tmp/ssh_keys/known_hosts
 
 FROM jenkins/jenkins
 
 USER root
 
-COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
-
-RUN chown jenkins:jenkins $JENKINS_HOME/.ssh/id_rsa
+COPY --chown=$USER --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+RUN chown $USER  $JENKINS_HOME/.ssh/id_rsa
+RUN chown $USER  $JENKINS_HOME/.ssh/known_hosts
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
