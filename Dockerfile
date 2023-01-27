@@ -3,6 +3,8 @@ USER root
 
 # RUN mkdir -p /var/jenkins_home/.ssh
 # RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
+RUN mkdir -p /tmp/ssh_keys/
+RUN chown jenkins:jenkins /tmp/ssh_keys/ -R
 RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
 RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
 RUN chmod 600 -R /tmp/ssh_keys
