@@ -19,8 +19,8 @@ RUN usermod -aG docker jenkins
 
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
-RUN chown -v jenkins:jenkins /var/jenkins_home/.ssh 
-RUN chown -v jenkins:jenkins /var/jenkins_home/.ssh/known_hosts
+RUN chmod 700 /var/jenkins_home/.ssh
+RUN chmod 600 /var/jenkins_home/.ssh/* 
 
 USER jenkins
 
