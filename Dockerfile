@@ -2,6 +2,9 @@ FROM jenkins/jenkins
 
 USER root
  
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
+RUN chmod 600 /var/jenkins_home/.ssh/id_rsa
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
@@ -16,13 +19,6 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
 RUN usermod -aG docker jenkins  
-
-COPY startup.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/startup.sh
-RUN mkdir /var/jenkins_home/.ssh
-RUN chown -R jenkins:jenkins /var/jenkins_home/.ssh/
-RUN chmod 700 /var/jenkins_home/.ssh
-RUN chmod 600 /var/jenkins_home/.ssh/* 
 
 USER jenkins
 
