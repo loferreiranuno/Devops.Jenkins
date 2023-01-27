@@ -16,7 +16,7 @@ USER root
 COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
 RUN chown jenkins:jenkins $JENKINS_HOME/.ssh/id_rsa
 
-RUN apt-get update && apt-get install -y lsb-release git openssh-server 
+RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
