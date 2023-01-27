@@ -15,8 +15,8 @@ USER root
 COPY --chown=$USER --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
 RUN chmod 700 $JENKINS_HOME/.ssh/
 RUN chmod 600 $JENKINS_HOME/.ssh/*
-RUN chown -R ${USER} $JENKINS_HOME/.ssh/
-RUN chgrp -R ${USER} $JENKINS_HOME/.ssh/
+RUN chown -R $USER $JENKINS_HOME/.ssh/
+RUN chgrp -R $USER $JENKINS_HOME/.ssh/
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
