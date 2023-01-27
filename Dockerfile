@@ -1,20 +1,18 @@
-FROM jenkins/jenkins as base
-USER root
-
-RUN mkdir -p /tmp/ssh_keys/
-RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
-RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
-RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/known_hosts
-RUN chmod 700 /tmp/ssh_keys/
-RUN chmod 600 /tmp/ssh_keys/*
-RUN chown jenkins:jenkins /tmp/ssh_keys/ -R 
-
 FROM jenkins/jenkins
 
 USER root
 
-COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
- 
+# Create the .ssh folder and set ownership to jenkins
+RUN mkdir -p /var/jenkins_home/.ssh
+RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
+
+# Add the private and public key to the .ssh folder
+RUN echo $SSH_PRIVATE_KEY > /var/jenkins_home/.ssh/id_rsa
+RUN echo $SSH_PUBLIC_KEY > /var/jenkins_home/.ssh/id_rsa.pub
+
+# Set the correct permissions on the .ssh folder and its contents
+RUN chmod 700 /var/jenkins_home/.ssh
+RUN chmod 600 /var/jenkins_home/.ssh/*
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
