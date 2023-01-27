@@ -1,10 +1,38 @@
-FROM jenkins/jenkins
-
+FROM jenkins/jenkins as base
 USER root
 
+ENV SSH_PRIVATE_KEY=""
+ENV SSH_PUBLIC_KEY=""
+ENV SSH_KNOWN_HOSTS=""
 
+# Crea la carpeta para las claves SSH
+RUN mkdir -p /tmp/ssh_keys/
+
+# Crea los archivos de claves SSH en la carpeta
+RUN echo "$SSH_PRIVATE_KEY" > /tmp/ssh_keys/id_rsa
+RUN echo "$SSH_PUBLIC_KEY" > /tmp/ssh_keys/id_rsa.pub
+RUN echo "$SSH_KNOWN_HOSTS" > /tmp/ssh_keys/known_hosts
+
+# Cambia los permisos de las claves SSH
+RUN chmod 700 /tmp/ssh_keys/
+RUN chmod 600 /tmp/ssh_keys/*
+
+# Cambia el propietario de las claves SSH
+RUN chown $USER /tmp/ssh_keys/ -R 
+
+# Selecciona la imagen de Jenkins
+FROM jenkins/jenkins
+
+# Cambia al usuario root
+USER root
+
+# Copia las claves SSH desde la primera imagen
+COPY --chown=$USER --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+
+# Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
+# Instala Docker
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
 
@@ -15,26 +43,15 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce
 
+# Agrega jenkins al grupo de docker
 RUN usermod -aG docker jenkins  
 
-# Create the .ssh folder and set ownership to jenkins
-RUN mkdir -p /var/jenkins_home/.ssh
-
-# Add the private and public key to the .ssh folder
-RUN echo $SSH_PRIVATE_KEY > /var/jenkins_home/.ssh/id_rsa
-RUN echo $SSH_PUBLIC_KEY > /var/jenkins_home/.ssh/id_rsa.pub
-
-# Set the correct permissions on the .ssh folder and its contents
-RUN chmod 700 /var/jenkins_home/.ssh
-RUN chmod 600 /var/jenkins_home/.ssh/*
-
-RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
-
+# Copia el archivo de inicio y cambia los permisos
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
+# Cambia al usuario jenkins
 USER jenkins
 
-
-# Instale o plugin do GitHub 
+# Instala los plugins de Jenkins
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" 
