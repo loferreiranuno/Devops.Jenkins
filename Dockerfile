@@ -6,8 +6,10 @@ USER root
 RUN mkdir -p /tmp/ssh_keys/
 RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
 RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
+RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/known_hosts
 RUN chown jenkins:jenkins /tmp/ssh_keys/ -R
-RUN chmod 600 -R /tmp/ssh_keys
+RUN chmod 600 -R /tmp/ssh_keys/id_rsa
+RUN chmod 700 -R /tmp/ssh_keys/known_hosts
 
 FROM jenkins/jenkins
 
