@@ -1,9 +1,9 @@
 FROM jenkins/jenkins as base
 USER root
 
-ARG SSH_PRIVATE_KEY=""
-ARG SSH_PUBLIC_KEY=""
-ARG SSH_KNOWN_HOSTS=""
+ARG SSH_PRIVATE_KEY
+ARG SSH_PUBLIC_KEY
+ARG SSH_KNOWN_HOSTS
 
 # Crea la carpeta para las claves SSH
 RUN mkdir -p /tmp/ssh_keys/
