@@ -4,9 +4,9 @@ USER root
 # RUN mkdir -p /var/jenkins_home/.ssh
 # RUN chown jenkins:jenkins /var/jenkins_home/.ssh -R
 RUN mkdir -p /tmp/ssh_keys/
-RUN chown jenkins:jenkins /tmp/ssh_keys/ -R
 RUN ${SSH_PRIVATE_KEY} > /tmp/ssh_keys/id_rsa
 RUN ${SSH_PUBLIC_KEY} > /tmp/ssh_keys/id_rsa.pub
+RUN chown jenkins:jenkins /tmp/ssh_keys/ -R
 RUN chmod 600 -R /tmp/ssh_keys
 
 FROM jenkins/jenkins
@@ -14,6 +14,7 @@ FROM jenkins/jenkins
 USER root
 
 COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+
 RUN chown jenkins:jenkins $JENKINS_HOME/.ssh/id_rsa
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
