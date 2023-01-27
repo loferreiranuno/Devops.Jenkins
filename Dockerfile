@@ -14,6 +14,7 @@ FROM jenkins/jenkins
 USER root
 
 COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+RUN chown jenkins:jenkins $JENKINS_HOME/.ssh/id_rsa
 
 RUN apt-get update && apt-get install -y lsb-release git openssh-server 
 
