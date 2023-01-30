@@ -11,6 +11,7 @@ ARG SSH_PATH
 
 # Crea la carpeta para las claves SSH
 RUN mkdir -p ${SSH_PATH} 
+RUN ls -al ${SSH_PATH}
 
 # Cambia los permisos de las claves SSH
 RUN chmod 700 ${SSH_PATH}
