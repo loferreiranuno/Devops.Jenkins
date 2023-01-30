@@ -4,7 +4,7 @@ USER root
 ARG SSH_PRIVATE_KEY
 ARG SSH_PUBLIC_KEY
 ARG SSH_KNOWN_HOSTS
-ARG SSH_TMP_PATH = /tmp/ssh_keys
+ARG SSH_TMP_PATH
 
 # Crea la carpeta para las claves SSH
 RUN mkdir -p ${SSH_TMP_PATH} 
