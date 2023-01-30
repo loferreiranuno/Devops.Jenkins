@@ -19,8 +19,8 @@ services:
             - jenkins-docker-certs:/certs/client:ro
             - /var/run/docker.sock:/var/run/docker.sock
             - ~/.ssh:/var/jenkins_home/.ssh 
-        user: "1000"
-        command: bash -c "chown -R 1000:1000 /var/jenkins_home/.ssh && exec /usr/local/bin/startup.sh && exec /usr/local/bin/jenkins.sh"
+        user: "jenkins"
+        command: bash -c "chown -R jenkins:jenkins /var/jenkins_home/.ssh && exec /usr/local/bin/startup.sh && exec /usr/local/bin/jenkins.sh"
         ports:
             - "8080:8080"
             - "50000:50000"
