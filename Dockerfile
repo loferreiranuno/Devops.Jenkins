@@ -22,8 +22,9 @@ USER root
 # # Cambia los permisos de las claves SSH
 # RUN chmod 777 ${SSH_PATH}
 # RUN chgrp jenkins ${SSH_PATH}
+
 # # Cambia el propietario de las claves SSH
-# RUN chown jenkins:jenkins ${SSH_PATH} -R 
+RUN chown jenkins:jenkins ${SSH_PATH} -R 
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
