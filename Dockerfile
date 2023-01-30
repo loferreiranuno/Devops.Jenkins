@@ -4,21 +4,22 @@ USER root
 ARG SSH_PRIVATE_KEY
 ARG SSH_PUBLIC_KEY
 ARG SSH_KNOWN_HOSTS
+ARG SSH_TMP_PATH = /tmp/ssh_keys
 
 # Crea la carpeta para las claves SSH
-RUN mkdir -p /tmp/ssh_keys/
+RUN mkdir -p ${SSH_TMP_PATH} 
 
 # Crea los archivos de claves SSH en la carpeta
-RUN echo "$SSH_PRIVATE_KEY" > /tmp/ssh_keys/id_rsa
-RUN echo "$SSH_PUBLIC_KEY" > /tmp/ssh_keys/id_rsa.pub
-RUN echo "$SSH_KNOWN_HOSTS" > /tmp/ssh_keys/known_hosts
+RUN echo ${SSH_PRIVATE_KEY} > ${SSH_TMP_PATH}/id_rsa 
+RUN echo ${SSH_PUBLIC_KEY} > ${SSH_TMP_PATH}/id_rsa.pub 
+RUN echo ${SSH_KNOWN_HOSTS} > ${SSH_TMP_PATH}/known_hosts 
 
 # Cambia los permisos de las claves SSH
-RUN chmod 700 /tmp/ssh_keys/
-RUN chmod 600 /tmp/ssh_keys/*
+RUN chmod 700 ${SSH_TMP_PATH}
+RUN chmod 600 ${SSH_TMP_PATH}/*
 
 # Cambia el propietario de las claves SSH
-RUN chown jenkins:jenkins /tmp/ssh_keys/ -R 
+RUN chown jenkins:jenkins ${SSH_TMP_PATH} -R 
 
 # Selecciona la imagen de Jenkins
 FROM jenkins/jenkins
@@ -27,8 +28,8 @@ FROM jenkins/jenkins
 USER root
 
 # Copia las claves SSH desde la primera imagen
-COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
-
+COPY --chown=jenkins:jenkins --from=base ${SSH_TMP_PATH} ${JENKINS_HOME}/.ssh
+RUN echo "JENKINS_HOME = ${JENKINS_HOME}"
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
