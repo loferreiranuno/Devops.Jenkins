@@ -8,15 +8,22 @@ ARG SSH_PRIVATE_KEY
 ARG SSH_PUBLIC_KEY
 ARG SSH_KNOWN_HOSTS
 ARG SSH_PATH
+# Copy the .ssh directory into the Jenkins container
+COPY ~/.ssh /var/jenkins_home/.ssh
 
-# Crea la carpeta para las claves SSH
-RUN mkdir -p ${SSH_PATH} -m777
+# Set the correct ownership and permissions for the .ssh keys
+USER root
+RUN chown -R jenkins:jenkins /var/jenkins_home/.ssh
+RUN chmod 700 /var/jenkins_home/.ssh
+RUN chmod 600 /var/jenkins_home/.ssh/id_rsa
+# # Crea la carpeta para las claves SSH
+# RUN mkdir -p ${SSH_PATH} -m777
 
-# Cambia los permisos de las claves SSH
-RUN chmod 777 ${SSH_PATH}
-RUN chgrp jenkins ${SSH_PATH}
-# Cambia el propietario de las claves SSH
-RUN chown jenkins:jenkins ${SSH_PATH} -R 
+# # Cambia los permisos de las claves SSH
+# RUN chmod 777 ${SSH_PATH}
+# RUN chgrp jenkins ${SSH_PATH}
+# # Cambia el propietario de las claves SSH
+# RUN chown jenkins:jenkins ${SSH_PATH} -R 
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
