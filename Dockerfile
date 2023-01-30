@@ -7,7 +7,7 @@ USER root
 # ARG SSH_PRIVATE_KEY
 # ARG SSH_PUBLIC_KEY
 # ARG SSH_KNOWN_HOSTS
-# ARG SSH_PATH
+ARG SSH_PATH
 # Copy the .ssh directory into the Jenkins container
 # COPY ~/.ssh /var/jenkins_home/.ssh
 
