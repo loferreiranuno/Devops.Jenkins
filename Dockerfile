@@ -10,10 +10,10 @@ ARG SSH_KNOWN_HOSTS
 ARG SSH_PATH
 
 # Crea la carpeta para las claves SSH
-RUN mkdir -p ${SSH_PATH} 
+RUN mkdir -p ${SSH_PATH} -m777
 
 # Cambia los permisos de las claves SSH
-RUN chmod 700 ${SSH_PATH}
+RUN chmod 777 ${SSH_PATH}
 RUN chgrp jenkins ${SSH_PATH}
 # Cambia el propietario de las claves SSH
 RUN chown jenkins:jenkins ${SSH_PATH} -R 
