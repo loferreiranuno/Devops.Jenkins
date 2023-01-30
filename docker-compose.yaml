@@ -5,7 +5,7 @@ volumes:
     jenkins-data:
         driver: local
 networks:
-  jenkins:
+    jenkins:
 services:
     jenkins-blueocean:
         image: jenkins-blueocean:0.0.1-1 
