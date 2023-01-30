@@ -49,4 +49,4 @@ RUN chmod +x /usr/local/bin/startup.sh
 USER jenkins
 
 # Instala los plugins de Jenkins
-RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" 
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" --retry
