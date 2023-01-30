@@ -22,9 +22,7 @@ RUN chmod 700 ${SSH_PATH}
 RUN chmod 600 ${SSH_PATH}/*
 
 # Cambia el propietario de las claves SSH
-RUN chown $USER ${SSH_PATH} -R 
-
-RUN echo "JENKINS_HOME = ${JENKINS_HOME}, USER = $USER"
+RUN chown jenkins:jenkins ${SSH_PATH} -R 
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
