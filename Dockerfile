@@ -11,8 +11,11 @@ RUN mkdir -p ${SSH_TMP_PATH}
 
 # Crea los archivos de claves SSH en la carpeta
 RUN echo ${SSH_PRIVATE_KEY} > ${SSH_TMP_PATH}/id_rsa 
+RUN cat ${SSH_PRIVATE_KEY}
 RUN echo ${SSH_PUBLIC_KEY} > ${SSH_TMP_PATH}/id_rsa.pub 
+RUN cat ${SSH_PUBLIC_KEY}
 RUN echo ${SSH_KNOWN_HOSTS} > ${SSH_TMP_PATH}/known_hosts 
+RUN cat ${SSH_KNOWN_HOSTS}
 
 # Cambia los permisos de las claves SSH
 RUN chmod 700 ${SSH_TMP_PATH}
