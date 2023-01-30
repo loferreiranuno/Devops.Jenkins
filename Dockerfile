@@ -10,17 +10,13 @@ ARG SSH_KNOWN_HOSTS
 ARG SSH_PATH
 
 # Crea la carpeta para las claves SSH
-RUN mkdir -p ${SSH_PATH} && \
-    ls -al ${SSH_PATH}  && \
-    # Cambia los permisos de las claves SSH
-    chmod 700 ${SSH_PATH} && \
-    chmod 700 ${SSH_PATH}/* && \
-    # Crea los archivos de claves SSH en la carpeta
-    echo "${SSH_PRIVATE_KEY}" > ${SSH_PATH}/id_rsa && \
-    echo "${SSH_PUBLIC_KEY}" > ${SSH_PATH}/id_rsa.pub && \
-    echo "${SSH_KNOWN_HOSTS}" > ${SSH_PATH}/known_hosts && \
-    # Cambia el propietario de las claves SSH
-    chown jenkins:jenkins ${SSH_PATH} -R 
+RUN mkdir -p ${SSH_PATH} 
+
+# Cambia los permisos de las claves SSH
+RUN chmod 700 ${SSH_PATH}
+RUN chgrp jenkins ${SSH_PATH}
+# Cambia el propietario de las claves SSH
+RUN chown jenkins:jenkins ${SSH_PATH} -R 
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
@@ -45,6 +41,11 @@ RUN chmod +x /usr/local/bin/startup.sh
 
 # Cambia al usuario jenkins
 USER jenkins
+
+# Crea los archivos de claves SSH en la carpeta
+RUN echo "${SSH_PRIVATE_KEY}" > ${SSH_PATH}/id_rsa 
+RUN echo "${SSH_PUBLIC_KEY}" > ${SSH_PATH}/id_rsa.pub 
+RUN echo "${SSH_KNOWN_HOSTS}" > ${SSH_PATH}/known_hosts 
 
 # Instala los plugins de Jenkins
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow ssh-agent docker-plugin" --skip-failed-plugins
