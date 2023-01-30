@@ -13,9 +13,9 @@ ARG SSH_PATH
 RUN mkdir -p ${SSH_PATH} 
 
 # Crea los archivos de claves SSH en la carpeta
-RUN echo ${SSH_PRIVATE_KEY} > ${SSH_PATH}/id_rsa 
-RUN echo ${SSH_PUBLIC_KEY} > ${SSH_PATH}/id_rsa.pub 
-RUN echo ${SSH_KNOWN_HOSTS} > ${SSH_PATH}/known_hosts 
+RUN echo "${SSH_PRIVATE_KEY}" > ${SSH_PATH}/id_rsa 
+RUN echo "${SSH_PUBLIC_KEY}" > ${SSH_PATH}/id_rsa.pub 
+RUN echo "${SSH_KNOWN_HOSTS}" > ${SSH_PATH}/known_hosts 
 
 # Cambia los permisos de las claves SSH
 RUN chmod 700 ${SSH_PATH}
