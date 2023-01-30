@@ -27,7 +27,7 @@ ARG SSH_PATH
 # RUN chown jenkins:jenkins ${SSH_PATH} -R 
 
 # Instala paquetes necesarios
-RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
+RUN apt-get update && apt-get install -y lsb-release git openssh-server nano sudo
 
 # Instala Docker
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
