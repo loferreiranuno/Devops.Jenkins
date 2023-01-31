@@ -27,7 +27,7 @@
 #         restart: on-failure         
 version: '3.1'
 networks:
-  docker:
+  jenkins_network:
 volumes:
   jenkins-data:
   jenkins-docker-certs:
@@ -37,7 +37,7 @@ services:
     container_name: jenkins-blueocean
     restart: always
     networks:
-      - docker
+      - jenkins_network
     ports:
       - 8080:8080
       - 50000:50000
@@ -47,7 +47,7 @@ services:
       - jenkins-docker-certs:/certs/client:ro
       - $HOME:/home
     environment:
-      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_HOST=tcp://dind:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
   dind:
@@ -56,9 +56,7 @@ services:
     privileged: true
     restart: always
     networks:
-      docker:
-        aliases: 
-          - docker
+      - jenkins_network
     ports:
       - 2376:2376
     tty: true
