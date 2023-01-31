@@ -1,27 +1,70 @@
-version: '3'
-volumes:
-    jenkins-docker-certs:
-        driver: local
-    jenkins-data:
-        driver: local
+# version: '3'
+# volumes:
+#     jenkins-docker-certs:
+#         driver: local
+#     jenkins-data:
+#         driver: local
+# networks:
+#   jenkins:
+# services:
+#     jenkins-blueocean:
+#         image: jenkins-blueocean:0.0.1-1 
+#         container_name: jenkins-blueocean
+#         user: root
+#         networks:
+#             - jenkins 
+#         env_file:
+#             - .env
+#         volumes: 
+#             - jenkins-data:/var/jenkins_home
+#             - jenkins-docker-certs:/certs/client:ro
+#             - /var/run/docker.sock:/var/run/docker.sock
+#             - ~/.ssh:/var/jenkins_home/.ssh 
+#         command: ["/usr/local/bin/startup.sh"]
+#         ports:
+#             - "8080:8080"
+#             - "50000:50000"
+#         restart: on-failure         
+version: '3.1'
 networks:
+  docker:
+volumes:
+  jenkins-data:
+  jenkins-docker-certs:
+services: 
   jenkins:
-services:
-    jenkins-blueocean:
-        image: jenkins-blueocean:0.0.1-1 
-        container_name: jenkins-blueocean
-        user: root
-        networks:
-            - jenkins 
-        env_file:
-            - .env
-        volumes: 
-            - jenkins-data:/var/jenkins_home
-            - jenkins-docker-certs:/certs/client:ro
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ~/.ssh:/var/jenkins_home/.ssh 
-        command: ["/usr/local/bin/startup.sh"]
-        ports:
-            - "8080:8080"
-            - "50000:50000"
-        restart: on-failure         
+    image: jenkins-blueocean:0.0.1-1 
+    container_name: jenkins-blueocean
+    restart: always
+    networks:
+      - docker
+    ports:
+      - 8080:8080
+      - 50000:50000
+    tty: true
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+      - $HOME:/home
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+  dind:
+    image: docker:dind
+    container_name: jenkins-docker-dind
+    privileged: true
+    restart: always
+    networks:
+      docker:
+        aliases: 
+          - docker
+    ports:
+      - 2376:2376
+    tty: true
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client
+      - $HOME:/home
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
