@@ -14,8 +14,8 @@ RUN echo "$SSH_PUBLIC_KEY" > /tmp/ssh_keys/id_rsa.pub
 RUN echo "$SSH_KNOWN_HOSTS" > /tmp/ssh_keys/known_hosts
 
 # Cambia los permisos de las claves SSH
-RUN chmod 700 /tmp/ssh_keys/
-RUN chmod 600 /tmp/ssh_keys/*
+RUN chmod -R 700 /tmp/ssh_keys/ 
+RUN chmod 600 /tmp/ssh_keys/id_rsa
 
 # Cambia el propietario de las claves SSH
 RUN chown jenkins:jenkins /tmp/ssh_keys/ -R 
@@ -27,7 +27,7 @@ FROM jenkins/jenkins
 USER root
 
 # Copia las claves SSH desde la primera imagen
-COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys $JENKINS_HOME/.ssh
+COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys /var/jenkins_home/.ssh
 
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
