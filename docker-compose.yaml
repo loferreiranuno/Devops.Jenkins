@@ -1,68 +1,40 @@
-# version: '3'
-# volumes:
-#     jenkins-docker-certs:
-#         driver: local
-#     jenkins-data:
-#         driver: local
-# networks:
-#   jenkins:
-# services:
-#     jenkins-blueocean:
-#         image: jenkins-blueocean:0.0.1-1 
-#         container_name: jenkins-blueocean
-#         user: root
-#         networks:
-#             - jenkins 
-#         env_file:
-#             - .env
-#         volumes: 
-#             - jenkins-data:/var/jenkins_home
-#             - jenkins-docker-certs:/certs/client:ro
-#             - /var/run/docker.sock:/var/run/docker.sock
-#             - ~/.ssh:/var/jenkins_home/.ssh 
-#         command: ["/usr/local/bin/startup.sh"]
-#         ports:
-#             - "8080:8080"
-#             - "50000:50000"
-#         restart: on-failure         
 version: '3.1'
 networks:
-  jenkins_network:
+  jenkins:
 volumes:
   jenkins-data:
   jenkins-docker-certs:
 services: 
   jenkins:
+    depends_on:
+      - docker
     image: jenkins-blueocean:0.0.1-1 
     container_name: jenkins-blueocean
     restart: always
     networks:
-      - jenkins_network
+      jenkins: {}
     ports:
       - 8080:8080
       - 50000:50000
     tty: true
     volumes:
       - jenkins-data:/var/jenkins_home
-      - jenkins-docker-certs:/certs/client:ro
-      - $HOME:/home
+      - jenkins-docker-certs:/certs:ro 
     environment:
-      - DOCKER_HOST=tcp://dind:2376
+      - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
-  dind:
+  docker:
     image: docker:dind
-    container_name: jenkins-docker-dind
     privileged: true
-    restart: always
-    networks:
-      - jenkins_network
-    ports:
-      - 2376:2376
-    tty: true
     volumes:
-      - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs/client
-      - $HOME:/home
+      - jenkins-data:/var/jenkins_home
+    ports:
+      - "2376:2376"
     environment:
-      - DOCKER_TLS_CERTDIR=/certs
+      DOCKER_TLS_CERTDIR: /certs
+    networks:
+      jenkins:
+        aliases:
+          - docker
