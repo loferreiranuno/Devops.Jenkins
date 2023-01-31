@@ -23,7 +23,7 @@ services:
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=0
+      - DOCKER_TLS_VERIFY=1
   docker:
     image: docker:dind
     container_name: jenkins-agent
@@ -31,8 +31,8 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
-    ports:
-      - "2376:2376"
+    # ports:
+    #   - "2376:2376"
     environment:
       DOCKER_TLS_CERTDIR: /certs
     networks:
