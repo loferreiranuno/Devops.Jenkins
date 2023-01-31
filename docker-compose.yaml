@@ -9,7 +9,7 @@ services:
     depends_on:
       - docker
     image: jenkins-blueocean:0.0.1-1 
-    container_name: jenkins-blueocean
+    container_name: jenkins
     restart: always
     networks:
       jenkins: {}
@@ -26,6 +26,7 @@ services:
       - DOCKER_TLS_VERIFY=1
   docker:
     image: docker:dind
+    container_name: jenkins-agent
     privileged: true
     volumes:
       - jenkins-docker-certs:/certs/client
