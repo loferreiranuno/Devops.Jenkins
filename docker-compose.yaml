@@ -22,8 +22,8 @@ services:
       - jenkins-docker-certs:/certs:ro 
     environment:
       - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_CERT_PATH=""
-      - DOCKER_TLS_VERIFY=""
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=0
   docker:
     image: docker:dind
     container_name: jenkins-agent
