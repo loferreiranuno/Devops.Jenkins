@@ -33,6 +33,7 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
+      - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro
     ports:
       - "2376:2376"
     environment:
