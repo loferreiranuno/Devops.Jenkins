@@ -31,8 +31,8 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
-    # ports:
-    #   - "2376:2376"
+    ports:
+      - "2376:2376"
     environment:
       DOCKER_TLS_CERTDIR: /certs
     networks:
