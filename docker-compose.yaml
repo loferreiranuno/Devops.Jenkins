@@ -21,12 +21,11 @@ services:
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs:ro 
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCKER_PATH}:/usr/bin/docker
+      - "$(which docker)":/usr/bin/docker
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1
-      - DOCKER_PATH:$(which docker)
+      - DOCKER_TLS_VERIFY=1 
   docker:
     image: docker:dind
     container_name: jenkins-agent
