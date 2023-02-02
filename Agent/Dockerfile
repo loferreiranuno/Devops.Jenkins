@@ -24,9 +24,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 RUN curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod 755 /usr/local/bin/docker-compose
 
-RUN apt-get update docker-compose
-
-RUN docker-compose -v
+RUN apt-get update 
 
 WORKDIR /home/${user}
 
