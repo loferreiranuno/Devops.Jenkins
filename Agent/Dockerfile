@@ -20,8 +20,10 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
   $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
 
 # Instala docker compose
-RUN curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose \
+RUN curl -L https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose \
  && chmod +x /usr/local/bin/docker-compose
+
+RUN chown $user:docker /var/run/docker.sock
 
 WORKDIR /home/${user}
 
