@@ -29,6 +29,8 @@ USER root
 # Copia las claves SSH desde la primera imagen
 COPY --chown=jenkins:jenkins --from=base /tmp/ssh_keys /var/jenkins_home/.ssh
 
+RUN chown -R jenkins:jenkins /usr/share/java/jenkins/
+
 # Instala paquetes necesarios
 RUN apt-get update && apt-get install -y lsb-release git openssh-server nano
 
