@@ -21,7 +21,8 @@ services:
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs:ro 
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCKER_PATH}:/usr/bin/docker
+      - ${DOCKER_PATH}:/usr/bin/docker:ro
+      - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose:ro
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
@@ -33,6 +34,8 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home 
+      - ${DOCKER_PATH}:/usr/bin/docker:ro
+      - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose:ro
     ports:
       - "2376:2376"
     environment:
