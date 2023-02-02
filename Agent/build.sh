@@ -4,7 +4,7 @@ REGISTRY_HOST=localhost
 REGISTRY_PORT=5000
 
 # Remove old version of the image
-docker image rm $(docker image ls $IMAGE_NAME -q -a --filter "until=5 hours ago")
+docker image rm $(docker image ls $IMAGE_NAME -q -a)
 
 # Build the Docker image using the Dockerfile
 docker build -t $IMAGE_NAME .
