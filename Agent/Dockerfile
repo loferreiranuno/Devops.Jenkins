@@ -2,8 +2,8 @@ FROM jenkins/agent
 
 ARG user=jenkins
 
-ENV DOCKERVERSION=19.03.12
-ENV DOCKER_COMPOSE_VERSION=1.27.4
+ENV DOCKERVERSION=20.10.23
+ENV DOCKER_COMPOSE_VERSION=2.15.1
 
 LABEL Description="This image is derived from jenkins/agent openjdk11. \
       It includes docker static binary"
