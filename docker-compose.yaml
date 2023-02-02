@@ -8,6 +8,7 @@ volumes:
 services:
   registry:
     image: registry:2
+    container_name: docker-registry
     environment:
       REGISTRY_STORAGE_DELETE_ENABLED: "true"
       REGISTRY_STORAGE_MAINTENANCE_ONE_TIME_ON_START: "cleanup"
