@@ -1,5 +1,5 @@
 #!/bin/bash
-IMAGE_NAME=jenkins-agent-compose
+IMAGE_NAME=jenkins/agent:custom
 REGISTRY_HOST=localhost
 REGISTRY_PORT=5000
 
@@ -7,7 +7,7 @@ REGISTRY_PORT=5000
 docker image rm $(docker image ls $IMAGE_NAME -q -a)
 
 # Build the Docker image using the Dockerfile
-docker build -t $IMAGE_NAME .
+docker build  --rm -t $IMAGE_NAME .
 
 # Tag the image with the registry hostname and port
 docker tag $IMAGE_NAME $REGISTRY_HOST:$REGISTRY_PORT/$IMAGE_NAME
