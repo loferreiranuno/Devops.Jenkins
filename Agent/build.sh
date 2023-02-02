@@ -4,7 +4,7 @@ REGISTRY_HOST=localhost
 REGISTRY_PORT=5000
 
 # Remove old version of the image
-docker image rm $(docker image ls $IMAGE_NAME -q -a) 
+docker image rm $(docker image ls $IMAGE_NAME -q -a)
 
 # Build the Docker image using the Dockerfile
 docker build  --rm -t $IMAGE_NAME .
