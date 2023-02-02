@@ -6,6 +6,7 @@ volumes:
   jenkins-docker-certs:
   registry-data:
 services:
+#docker registries
   registry:
     image: registry:2
     container_name: docker-registry
@@ -30,6 +31,7 @@ services:
       - registry-data:/var/lib/registry
     networks:
       jenkins: {}
+      
   jenkins:
     depends_on:
       - docker
@@ -51,7 +53,8 @@ services:
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1 
+      - DOCKER_TLS_VERIFY=1  
+
   docker:
     image: docker:dind
     container_name: jenkins-agent
