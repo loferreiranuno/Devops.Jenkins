@@ -1,5 +1,5 @@
 #!/bin/bash
-IMAGE_NAME=jenkins/agent-custom
+IMAGE_NAME=jenkins-agent-compose
 REGISTRY_HOST=localhost
 REGISTRY_PORT=5000
 
