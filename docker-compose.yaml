@@ -32,8 +32,8 @@ services:
       jenkins: {}
       
   jenkins:
-    depends_on:
-      - docker
+    # depends_on:
+    #   - docker
     image: jenkins-blueocean:0.0.1-1 
     container_name: jenkins
     restart: always
@@ -50,7 +50,7 @@ services:
       - ${DOCKER_PATH}:/usr/bin/docker
       - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose
     environment:
-      - DOCKER_HOST=tcp://docker:2376
+      # - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1  
   # docker:
