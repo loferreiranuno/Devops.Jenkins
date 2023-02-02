@@ -1,7 +1,5 @@
 FROM jenkins/jenkins as base
 USER root
- 
-ENV DOCKER_COMPOSE_VERSION=2.15.1
 
 ARG SSH_PRIVATE_KEY
 ARG SSH_PUBLIC_KEY
@@ -44,7 +42,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
   $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
 
 # Instala docker compose
-RUN curl -L https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose \
+RUN curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose \
  && chmod +x /usr/local/bin/docker-compose
 
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce docker-compose-plugin
