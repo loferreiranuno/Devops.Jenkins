@@ -4,7 +4,31 @@ networks:
 volumes:
   jenkins-data:
   jenkins-docker-certs:
-services: 
+  registry-data:
+services:
+  registry:
+    image: registry:2
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      REGISTRY_STORAGE_MAINTENANCE_ONE_TIME_ON_START: "cleanup"
+      REGISTRY_STORAGE_MAINTENANCE_ONE_TIME_ON_START_DELAY: "10s"
+      REGISTRY_STORAGE_MAINTENANCE_ONE_TIME_ON_START_BATCH_SIZE: 5
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+      update_config:
+        parallelism: 1
+        delay: 10s
+    ports:
+      - 5000:5000
+    volumes:
+      - registry-data:/var/lib/registry
+    networks:
+      jenkins: {}
   jenkins:
     depends_on:
       - docker
@@ -21,8 +45,8 @@ services:
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs:ro 
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCKER_PATH}:/usr/bin/docker:ro
-      - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose:ro
+      - ${DOCKER_PATH}:/usr/bin/docker
+      - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
@@ -33,9 +57,7 @@ services:
     privileged: true
     volumes:
       - jenkins-docker-certs:/certs/client
-      - jenkins-data:/var/jenkins_home 
-      - ${DOCKER_PATH}:/usr/bin/docker:ro
-      - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose:ro
+      - jenkins-data:/var/jenkins_home      
     ports:
       - "2376:2376"
     environment:
