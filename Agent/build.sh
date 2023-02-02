@@ -3,6 +3,9 @@ IMAGE_NAME=jenkins/agent-custom
 REGISTRY_HOST=localhost
 REGISTRY_PORT=5000
 
+# Remove old version of the image
+docker image rm $(docker image ls $IMAGE_NAME -q -a --filter "until=5 hours ago")
+
 # Build the Docker image using the Dockerfile
 docker build -t $IMAGE_NAME .
 
