@@ -41,6 +41,10 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
   https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
 
+# Instala docker compose
+RUN curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose \
+ && chmod +x /usr/local/bin/docker-compose
+
 RUN apt-get update && apt-get install -y docker-ce-cli docker-ce docker-compose-plugin
 
 # Agrega jenkins al grupo de docker
