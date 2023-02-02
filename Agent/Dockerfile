@@ -1,4 +1,4 @@
-FROM jenkins/agent
+FROM jenkins/agent:latest-stretch-jdk11
 
 ARG user=jenkins
 
@@ -27,7 +27,6 @@ RUN curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPO
     
 # Agrega jenkins al grupo de docker
 RUN usermod -aG docker ${user}  
-
 
 # Set the working directory
 WORKDIR /root
