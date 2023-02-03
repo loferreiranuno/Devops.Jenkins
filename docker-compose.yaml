@@ -40,7 +40,7 @@ services:
     networks:
       jenkins: {}
     ports:
-      - 8080:8080
+      - 8090:8080
       - 50000:50000
     tty: true
     volumes:
