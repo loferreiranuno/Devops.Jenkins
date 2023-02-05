@@ -45,7 +45,7 @@ services:
     tty: true
     volumes:
       - jenkins-data:/var/jenkins_home
-      - jenkins-docker-certs:/certs:ro 
+      - jenkins-docker-certs:/certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - ${DOCKER_PATH}:/usr/bin/docker
       # - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose
