@@ -51,7 +51,7 @@ services:
       # - ${DOCKER_COMPOSE_PATH}:/usr/local/bin/docker-compose
     environment:
       - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_CERT_PATH=/certs
       - DOCKER_TLS_VERIFY=1  
   docker:
     image: docker:dind
