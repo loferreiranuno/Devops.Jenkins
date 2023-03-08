@@ -25,9 +25,6 @@ RUN curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOS
     && chmod +x /usr/local/bin/docker-compose \
     && chown ${user} /usr/local/bin/docker-compose
 
-# Print the version of Docker Compose
-RUN docker-compose version
-
 # Add Jenkins user to the docker group
 RUN usermod -aG docker ${user}   
 
@@ -36,6 +33,9 @@ WORKDIR /root
 
 # Run a shell command to add the alias to the profile file
 RUN echo "alias docker-compose='docker compose'" >> ~/.bashrc
+
+# Print the version of Docker Compose
+RUN docker-compose version
 
 WORKDIR /home/${user}
 
