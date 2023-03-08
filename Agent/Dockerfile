@@ -34,11 +34,11 @@ WORKDIR /root
 # Run a shell command to add the alias to the profile file
 RUN echo "alias docker-compose='docker compose'" >> ~/.bashrc
 
-# Print the version of Docker Compose
-RUN docker-compose version
-
 WORKDIR /home/${user}
 
 USER ${user}
 
 ENV PATH="/usr/local/bin:${PATH}"
+
+# Print the version of Docker Compose
+RUN docker-compose version
